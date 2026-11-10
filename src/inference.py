@@ -1,5 +1,12 @@
 # -*- coding: utf-8 -*-
-"""Single-image (or batch) inference: anti-VEGF intolerance risk score."""
+"""Persistent/recurrent neovascularization research score from a fundus image.
+
+The development endpoint is persistence/recurrence after six ranibizumab
+injections versus documented regression, with NVE/NVD already present at baseline.
+The legacy intolerance_risk output key is retained for compatibility; it stores
+the positive-class research score, not adverse-drug intolerance or a calibrated
+probability. Model computation, class order and decision threshold are unchanged.
+"""
 import argparse
 import torch
 from PIL import Image
@@ -16,13 +23,13 @@ def predict(image_path: str, weights: str, device: str = None, threshold: float 
         prob = torch.softmax(model(x), 1)[0, 1].item()
     return {
         "intolerance_risk": round(prob, 4),
-        "prediction": "intolerant" if prob >= threshold else "tolerant",
+        "prediction": "persistent_or_recurrent_neovascularization" if prob >= threshold else "documented_regression",
         "threshold": threshold,
     }
 
 
 if __name__ == "__main__":
-    ap = argparse.ArgumentParser(description="anti-VEGF intolerance risk from a fundus image.")
+    ap = argparse.ArgumentParser(description="Persistent/recurrent neovascularization research score; legacy intolerance_risk key is retained.")
     ap.add_argument("--image", required=True)
     ap.add_argument("--weights", required=True)
     ap.add_argument("--threshold", type=float, default=0.5)

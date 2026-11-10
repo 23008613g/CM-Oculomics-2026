@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "validation_date_utc": "2026-11-10T01:08:26.907081+00:00",
+  "python": "3.11.9",
+  "numpy": "2.4.4",
+  "scipy": "1.17.1",
+  "scikit_learn": "1.8.0",
+  "matplotlib": "3.10.9",
+  "scripts_executed_once_in_isolated_output_directories": [
+    "build_estimator_figures.py",
+    "recompute_local_validation_cost.py",
+    "plot_local_validation_cost.py",
+    "draw_clinical_schematics.py"
+  ],
+  "script_sha256": {
+    "build_estimator_figures.py": "872c70f2099e5ab38c01f3a3c9663dae4c1a932d0cc6b43efecdfed88e770f58",
+    "draw_clinical_schematics.py": "ac3b59cddd72d796e38d033cd700f456ecc891aa2c7e8efb052bc48b8a875722",
+    "plot_local_validation_cost.py": "5db3b27e2b6d13f4118a2e782ec1562b3588d4a6e5e38631f6f2a161654b64f5",
+    "recompute_local_validation_cost.py": "e2efff8eeb2a2c6d231e3f66e75f56d51e3b9da1820924a53d503e5c25ea2da1"
+  },
+  "sampling_recalculation": {
+    "complete": true,
+    "elapsed_seconds": 79.96134180005174,
+    "aggregate_exact_match": true,
+    "curve_arrays_exact_match_including_nan": true,
+    "curve_archive_byte_identical": true,
+    "curve_array_count": 16,
+    "each_curve_shape": [
+      7,
+      40
+    ],
+    "source_prediction_file_count": 70,
+    "seed": 0,
+    "expected_runtime_warnings": "Nonfinite percentiles for absent-class simulation draws; raw curves preserved."
+  },
+  "render_comparisons": [
+    {
+      "figure": "Fig5_metric_matched",
+      "png_sha256": "00531be1ef684c8906ceebb69cb8de19061655065a4acfe0577646ced661ffad",
+      "identical_to_separately_inspected_revision_preview": true
+    },
+    {
+      "figure": "FigS14_metric_sensitivity",
+      "png_sha256": "564e2163ae564c410b695860a71d25309076bd0bb0d05763fc61a7183c927fe7",
+      "identical_to_separately_inspected_revision_preview": true
+    },
+    {
+      "figure": "Figure6_local_validation_cost",
+      "png_sha256": "8702dda0478e1217202d5a14384be0cbba160313d311475318e4ade69484ddab",
+      "identical_to_separately_inspected_revision_preview": true
+    },
+    {
+      "figure": "FigureS6_local_validation_cost",
+      "png_sha256": "0f61197a8654a5f9fc644971a4d8f0366df678f6455ae0be5f1a2f37133112e6",
+      "identical_to_separately_inspected_revision_preview": true
+    },
+    {
+      "figure": "Figure1_study_design_corrected",
+      "png_sha256": "9125fbe5ebe38411f64337fd2c1f5c95f78e69a48d0df705c076288e185b8777",
+      "identical_to_separately_inspected_revision_preview": true
+    },
+    {
+      "figure": "FigureS1_framework_corrected",
+      "png_sha256": "f4e66e620f4b0f5df8a2dce44fb30015623fc9bfe0e0dc843e4876b9c3e1b0a9",
+      "identical_to_separately_inspected_revision_preview": true
+    },
+    {
+      "figure": "FigureS7_implementation_schematic",
+      "png_sha256": "2a8d993d31cef5fabe848f26460c062e5bd8143179f58eac6b9e61e329ceafff",
+      "identical_to_separately_inspected_revision_preview": true
+    }
+  ],
+  "metric_matched_input_schema_and_hashes_match": true,
+  "public_cache_sha256": {
+    "cache_metadata.json": "999f68583d2dc3d3ed160ca1a167b4bae76e807c8840f8070dbd4fc3a0ec676f",
+    "local_validation_cost.json": "4915d091e3a4cc211f9ec2f1b9fd2626753a6f46d5376e97be2ef4ff7c5dc754",
+    "local_validation_curves.npz": "d78c07dd58e691619e7dcc18f2025b0730dc90b92552947da7cc7da2eca49cf5"
+  },
+  "qa_execution_scope": "Public generators were executed with optional external alignment audit disabled and explicitly recorded NOT RUN. Their PNGs are byte-identical to separately inspected revision previews; external audit reports remain outside the repository.",
+  "not_performed": [
+    "Model training",
+    "New clinical-image inference",
+    "Prospective clinical validation",
+    "Upload or git push"
+  ],
+  "data_boundary": "Only public external predictions, public model/cohort aggregate estimator outputs, aggregate simulation curves and embedded schematic facts were read. No individual clinical-anchor predictions were read by these public scripts."
+}

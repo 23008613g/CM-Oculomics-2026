@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Interpretable retinal imaging biomarkers of anti-VEGF intolerance.
+Retinal vascular image measurements used in the neovascularization-outcome study.
 
 Computes, from a single color fundus photograph:
   - vascular density        : fraction of FOV occupied by the vessel mask

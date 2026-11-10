@@ -1,5 +1,13 @@
 # -*- coding: utf-8 -*-
 """
+HISTORICAL ANALYSIS — superseded by 78_metric_matched_estimators.py (2026-11-10).
+Do not use this script's estimator values as the corrected current results.
+Its ALine-D label denotes a raw agreement-drop heuristic, not the published
+joint probit-space estimator; its unit-slope DoC is the DoC-Feat variant.
+All source anchors below use balanced accuracy. Script 78 instead uses ordinary
+accuracy as primary and reports source-BA substitution only as a sensitivity.
+The original implementation and outputs are retained unchanged for provenance.
+
 46_aline_atc_doc.py — run the actual methods the OOD-performance-prediction literature uses.
 
 WHY: 44 correlated raw agreement and confidence with external AUC. That is not what the

@@ -1,5 +1,13 @@
 # -*- coding: utf-8 -*-
 """
+HISTORICAL ANALYSIS — superseded by 78_metric_matched_estimators.py (2026-11-10).
+Do not use these estimates as the corrected current same-task analysis.
+The legacy ALine-D formula is an agreement-drop heuristic; unit-slope DoC is
+DoC-Feat, and all source anchors below use balanced accuracy. Script 78 applies
+the published ALine equations with ordinary accuracy as primary and separately
+labels source-BA substitution as a sensitivity adaptation.
+The original implementation and outputs are retained unchanged for provenance.
+
 77_same_task_estimators.py - the four published estimators, and the no-shift baseline, in the
 same-task control of scripts/76.
 

@@ -3,9 +3,14 @@
 Gradio demo — Hugging Face Space ready.
 
 Input : one color fundus photograph
-Output: (1) anti-VEGF intolerance risk score (color-coded clinical card)
+Output: (1) persistent/recurrent neovascularization research score
         (2) Grad-CAM heatmap (explains the PREDICTED class)
         (3) three vascular imaging biomarkers (as a table)
+
+Development endpoint: persistent/recurrent retinal or optic-disc neovascularization
+after six ranibizumab injections versus documented regression. Baseline NVE/NVD
+was already present before treatment and in the prediction photographs.
+Legacy class identifiers do not indicate drug intolerance or baseline DR grade.
 
 LICENSE / COMPLIANCE: this demo uses a DINOv2 (ViT-L/14) backbone fine-tuned in-house;
 the released weights are distributed under Apache-2.0 (DINOv2's permissive license).
@@ -139,12 +144,13 @@ _BM_META = {
     "vascular_fractal_dimension": ("Vascular fractal dimension", "box-counting"),
 }
 
-# Group means from the study (tolerant=NPDR vs intolerant=PDR). All three
-# biomarkers are HIGHER in intolerant eyes (neovascularization burden); we use
+# Group means from the study (documented regression vs persistent/recurrent NV).
+# Legacy tolerant/NPDR and intolerant/PDR identifiers preserve this class order.
+# All three biomarkers are HIGHER in the persistent/recurrent group; we use
 # the midpoint of the two group means as an interpretive reference. This is a
 # population-level interpretation, NOT a diagnosis.
 _BM_REF = {
-    # key: (tolerant_mean, intolerant_mean)
+    # key: (regression_group_mean, persistent_or_recurrent_group_mean)
     "vascular_density": (0.497, 0.633),
     "vascular_skeleton_length": (0.275, 0.379),
     "vascular_fractal_dimension": (1.734, 1.801),
@@ -159,18 +165,15 @@ def _bm_interpret(key, val):
     mid = (lo + hi) / 2.0
     if val >= hi:
         return ("High", "hi",
-                "above the intolerant-group average — pattern associated with "
-                "higher neovascularization burden")
+                "above the persistent/recurrent-group average")
     if val >= mid:
         return ("Elevated", "hi",
-                "above the midpoint between groups — leans toward the "
-                "intolerant pattern")
+                "above the midpoint between the two outcome-group averages")
     if val >= lo:
         return ("Borderline", "mid",
                 "between group averages — intermediate")
     return ("Low", "lo",
-            "below the tolerant-group average — pattern associated with lower "
-            "neovascularization burden")
+            "below the regression-group average")
 
 
 def analyze(image):
@@ -186,25 +189,28 @@ def analyze(image):
     x = _tf(pil).unsqueeze(0).to(DEVICE)
     with torch.no_grad():
         probs = torch.softmax(_model(x), 1)[0]
-    prob = probs[1].item()                       # P(intolerant)
+    prob = probs[1].item()                       # persistent/recurrent NV class score
     pred_class = int(probs.argmax().item())      # the class the model predicts
     high = prob >= THRESH
     pct = prob * 100.0
-    label = "HIGHER RISK — above threshold" if high else "LOWER RISK — below threshold"
+    label = "HIGHER SCORE — above threshold" if high else "LOWER SCORE — below threshold"
     css_cls = "high" if high else "low"
     warn = "" if _WEIGHTS_OK else (
         "<div class='warn'>⚠ No fine-tuned weights available — this output is a "
         "PLACEHOLDER (random head). Set WEIGHTS_PATH / WEIGHTS_URL for real "
         "predictions.</div>"
     )
-    # No management advice: the endpoint is a retrospective proxy (progression to PDR during
-    # an anti-VEGF course), the score is not a calibrated probability, and the model has not
+    # The endpoint is persistent/recurrent NV versus documented regression after six
+    # ranibizumab injections. Baseline NVE/NVD was present; this is not incident PDR.
+    # The score is not a calibrated probability, and the model has not
     # been validated outside its development population.
     interp = ("In the development cohort, scores in this range were more common in eyes "
-              "that progressed to proliferative DR during an anti-VEGF course. "
+              "with persistent or recurrent retinal/optic-disc neovascularization "
+              "after six ranibizumab injections. "
               if high else
               "In the development cohort, scores in this range were more common in eyes "
-              "that remained non-proliferative during an anti-VEGF course. ")
+              "with documented neovascularization regression after six ranibizumab injections. ")
+    interp += ("Neovascularization was already present before treatment in both outcome groups. ")
     interp += ("Research output only: not a treatment recommendation, not a calibrated "
                "probability, and not validated outside the development population.")
     risk_html = f"""
@@ -214,7 +220,7 @@ def analyze(image):
         <span class='risk-label'>{label}</span>
       </div>
       <div class='risk-value'>{prob:.3f}</div>
-      <div class='risk-sub'>model risk score (0&ndash;1), not a calibrated probability</div>
+      <div class='risk-sub'>neovascularization research score (0&ndash;1), not a calibrated probability</div>
       <div class='bar'><div class='bar-fill' style='width:{pct:.1f}%'></div>
         <div class='bar-thresh' style='left:{THRESH*100:.0f}%'></div></div>
       <div class='risk-meta'>decision threshold {THRESH:.2f} &nbsp;·&nbsp; running on {_DEVICE_NOTE}</div>
@@ -257,9 +263,9 @@ def analyze(image):
         )
     bm_html = (f"<div class='bm-grid'>{items}</div>"
                "<div class='bm-foot'>Interpretation is relative to study "
-               "group averages (tolerant vs intolerant); higher vascular "
-               "density, skeleton length, and fractal dimension reflect greater "
-               "neovascularization burden. These measures depend strongly on the "
+               "group averages (regression vs persistence/recurrence). Vascular density, "
+               "skeleton length, and fractal dimension are image-derived measurements. "
+               "These measures depend strongly on the "
                "camera and are comparable only between images from the same "
                "device. Population-level context, not a diagnosis.</div>")
 
@@ -463,17 +469,18 @@ HEAD = (
     "</script>"
 )
 
-with gr.Blocks(title="CM-Oculomics — Anti-VEGF Intolerance Prediction") as demo:
+with gr.Blocks(title="CM-Oculomics — Neovascularization Research Score") as demo:
     gr.HTML(
         "<div id='hdr'><h1>CM-Oculomics</h1>"
         "<div style='font-size:1.05rem;font-weight:500;color:rgba(255,255,255,0.58);margin:2px 0 5px'>"
-        "Anti-VEGF Intolerance Prediction from Color Fundus Photographs</div>"
+        "Persistent/Recurrent Neovascularization Research Score</div>"
         "<span class='tag'>Interpretable AI · Diabetic Retinopathy · Integrative Medicine</span></div>"
     )
     gr.HTML(
-        "<div id='sub'>Predict anti-VEGF intolerance, visualize the supporting "
-        "evidence with Grad-CAM, and quantify retinal vascular biomarkers — "
-        "from a single low-cost fundus image.</div>"
+        "<div id='sub'>Estimate a research score for persistent or recurrent retinal/optic-disc "
+        "neovascularization after six ranibizumab injections, visualize Grad-CAM, and quantify "
+        "vascular image measurements. The development photographs already showed NVE/NVD "
+        "before treatment.</div>"
     )
 
     # --- How it works ---
@@ -485,10 +492,10 @@ with gr.Blocks(title="CM-Oculomics — Anti-VEGF Intolerance Prediction") as dem
         "photograph (either eye).</div></div>"
         "<div class='step'><span class='num'>2</span>"
         "<div class='t'>Encode &amp; classify</div><div class='d'>A fine-tuned "
-        "DINOv2 vision foundation model estimates intolerance risk.</div></div>"
+        "DINOv2 vision foundation model produces a neovascularization outcome score.</div></div>"
         "<div class='step'><span class='num'>3</span>"
-        "<div class='t'>Explain</div><div class='d'>Grad-CAM and vascular "
-        "biomarkers show the evidence behind the score.</div></div>"
+        "<div class='t'>Explain</div><div class='d'>Grad-CAM visualizes model attribution; "
+        "vascular measurements summarize image structure.</div></div>"
         "</div>"
     )
 
@@ -512,7 +519,7 @@ with gr.Blocks(title="CM-Oculomics — Anti-VEGF Intolerance Prediction") as dem
                 "<div class='row'><span class='k'>Backbone</span>"
                 "<span class='v'>DINOv2 ViT-L/14 (vision foundation model)</span></div>"
                 "<div class='row'><span class='k'>Task</span>"
-                "<span class='v'>anti-VEGF intolerance (binary)</span></div>"
+                "<span class='v'>NV persistence/recurrence vs regression</span></div>"
                 "<div class='row'><span class='k'>Training data</span>"
                 "<span class='v'>de-identified DR fundus images</span></div>"
                 "<div class='row'><span class='k'>Explainability</span>"
@@ -526,7 +533,7 @@ with gr.Blocks(title="CM-Oculomics — Anti-VEGF Intolerance Prediction") as dem
             )
 
         with gr.Column(scale=6):
-            gr.HTML("<div class='section-title'>Risk assessment</div>")
+            gr.HTML("<div class='section-title'>Research score</div>")
             risk_out = gr.HTML()
             with gr.Row():
                 with gr.Column(scale=1):

@@ -1,5 +1,12 @@
 # -*- coding: utf-8 -*-
 """
+HISTORICAL ANALYSIS — superseded by 78_metric_matched_estimators.py (2026-11-10).
+This scores script 46's historical estimator definitions and its source-BA
+No-shift baseline. It is not the corrected current method comparison.
+Use script 78 for ordinary-accuracy primary estimates, properly named DoC-Feat,
+source-BA sensitivity and No-shift comparisons on matched available rows.
+The original implementation and outputs are retained unchanged for provenance.
+
 75_estimator_baselines.py - a label-free baseline for the performance estimators.
 
 WHY: Section 2.4 compared the four published estimators with a constant equal to the mean

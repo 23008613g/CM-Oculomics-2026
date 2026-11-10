@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
-"""Grad-CAM explanation for the DINOv2 (ViT-L/14) intolerance classifier.
+"""Grad-CAM for the DINOv2 (ViT-L/14) neovascularization-outcome classifier.
+
+Class 1 denotes persistent/recurrent neovascularization after six ranibizumab
+injections; class 0 denotes documented regression. NVE/NVD was present at baseline.
 
 ViT tokens are reshaped to a 16x16 grid (224/14) for spatial attribution.
 """
@@ -37,7 +40,7 @@ def gradcam(image_path: str, weights: str, out_path: str = "cam.png",
 
 
 if __name__ == "__main__":
-    ap = argparse.ArgumentParser(description="Grad-CAM for the intolerance classifier.")
+    ap = argparse.ArgumentParser(description="Grad-CAM for the persistent/recurrent neovascularization classifier.")
     ap.add_argument("--image", required=True)
     ap.add_argument("--weights", required=True)
     ap.add_argument("--out", default="cam.png")

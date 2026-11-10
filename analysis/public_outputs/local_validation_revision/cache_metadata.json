@@ -1,0 +1,233 @@
+{
+  "schema_version": 1,
+  "aggregate_exact_match": true,
+  "seed": 0,
+  "rng": "numpy.random.RandomState",
+  "draws_ba": 4000,
+  "draws_auc": 600,
+  "cohorts": [
+    "ddr",
+    "jsiec",
+    "deepdrid",
+    "aptos",
+    "idrid",
+    "messidor2",
+    "eyepacs"
+  ],
+  "backbones": {
+    "dinov2_l": "DINOv2",
+    "retfound": "RETFound"
+  },
+  "grid": [
+    20,
+    23,
+    26,
+    30,
+    34,
+    39,
+    45,
+    52,
+    59,
+    68,
+    78,
+    89,
+    102,
+    117,
+    134,
+    153,
+    176,
+    201,
+    231,
+    264,
+    303,
+    347,
+    397,
+    455,
+    521,
+    597,
+    684,
+    784,
+    898,
+    1028,
+    1178,
+    1349,
+    1545,
+    1770,
+    2028,
+    2323,
+    2661,
+    3048,
+    3492,
+    4000
+  ],
+  "prevalences": [
+    0.5,
+    0.2,
+    0.1,
+    0.088
+  ],
+  "python": "3.11.9",
+  "numpy": "2.4.4",
+  "scikit_learn": "1.8.0",
+  "elapsed_seconds": 79.96134180005174,
+  "source_inputs_sha256": {
+    "pred_dinov2_l_seed0_ddr.npz": "76772512c01a1fa83fae30442358a1396c504b400e1811dafa78a79a95647598",
+    "pred_dinov2_l_seed1_ddr.npz": "26c21ca749d4e0d7b4a7cf6430ac9fa0bde808752c05078d0fdae419ff35c35d",
+    "pred_dinov2_l_seed2_ddr.npz": "b756002ae75d264a614a5011a396af01b86b6b32604baa997f53e4bd7a60bc3b",
+    "pred_dinov2_l_seed3_ddr.npz": "85d649a316f2668a39c3d83f0fa047397696fb14487f4e22cebbda91f7edf25f",
+    "pred_dinov2_l_seed4_ddr.npz": "eca31565acbbbee70bbb8ec57251ad984a05082ae510ba157325f5f0dda3cb51",
+    "pred_dinov2_l_seed0_jsiec.npz": "61fdd0d0a3216b35b995400161f8eda8a8563e21e5f00cecf4d235c6775d9508",
+    "pred_dinov2_l_seed1_jsiec.npz": "2fa2364ca9140c69d094cdc479cf5c62216a175a67e0a7fd1a4fac396928e0eb",
+    "pred_dinov2_l_seed2_jsiec.npz": "07e6662d397c915a0589e6c83e81bd5507c2c7e5bf580bf69fc3b91722f8ea82",
+    "pred_dinov2_l_seed3_jsiec.npz": "a09fa20fc4100cf4f61ef0b74ce2f72d421162f33ebca072ff77943b2dcb72e7",
+    "pred_dinov2_l_seed4_jsiec.npz": "7cc007ca30097ea481e747ca8da3a3289b024a8b9053e87c755f9b0386729354",
+    "pred_dinov2_l_seed0_deepdrid.npz": "8d99897cff39969149941ed0a77e433c701a4e5ebc651d449907eab3b296d0bd",
+    "pred_dinov2_l_seed1_deepdrid.npz": "bee99c02d72128daec34907140e92b09fa51aa620cf558aa04727ce68cb77ca0",
+    "pred_dinov2_l_seed2_deepdrid.npz": "67aae791767aca712f2ff7eeb271c64a43f95d9c5ce32a60d1e60f5842bf7a25",
+    "pred_dinov2_l_seed3_deepdrid.npz": "6ac2fd648f8faf4f696d2210e82b963d2a5012952108ff0ecb9dff782eadefb2",
+    "pred_dinov2_l_seed4_deepdrid.npz": "8536c4c6ad30552a3351c7a9e3a1e04744f5f467e76412fab3cbb7f7a380fa8e",
+    "pred_dinov2_l_seed0_aptos.npz": "8fef72c59518b6ae8af0d71ff22eb1e044291dca0cabd659dab38026de672c52",
+    "pred_dinov2_l_seed1_aptos.npz": "a94f0c2e87e144b6c0f998724706fb0f3a706b304f8412947687241fb1f59aef",
+    "pred_dinov2_l_seed2_aptos.npz": "76bdb1611a24b4967b5b491874e8aa2328f974d0a0dbe65302ac0c8b168b2009",
+    "pred_dinov2_l_seed3_aptos.npz": "7db056108a44d4fd36570dbd08e7b91a7a9d6569b5b1919a7d857472d3789bd8",
+    "pred_dinov2_l_seed4_aptos.npz": "92d728a30bd168f9d7d240b91796b69391599a9117c497c88eeecb751209c455",
+    "pred_dinov2_l_seed0_idrid.npz": "e6698c7a5ed022050dc9862de4616416b92de6fa2af66a3cbbd4d13c79e3dece",
+    "pred_dinov2_l_seed1_idrid.npz": "a4ceabefd0516696ac65287855170f8e40049a949d1116f6b16f85efcbbac9b5",
+    "pred_dinov2_l_seed2_idrid.npz": "13799b5c36d6b21861b19ca75935abf8c2946b4aa790fce7c5fb35228cf8c2c3",
+    "pred_dinov2_l_seed3_idrid.npz": "cb202aa806e9c88d126585721d2daaf9c3132ce388e95d57c941da62c79704dd",
+    "pred_dinov2_l_seed4_idrid.npz": "2617c94d648f702f17323a22ccd275d24bb2683b35a98072032c6e444b6414d5",
+    "pred_dinov2_l_seed0_messidor2.npz": "c68d00b1652635482329695989e97a932c80df54f5274ebcdae53d8072050062",
+    "pred_dinov2_l_seed1_messidor2.npz": "ca8b8c1bcccc7a7d8774c2365c27bad18b1e0335c205ab289dce4521710885d1",
+    "pred_dinov2_l_seed2_messidor2.npz": "63b190826eadd31beed4305117019644f0a171f48da50420ef6999a16a7e3c1f",
+    "pred_dinov2_l_seed3_messidor2.npz": "957bda1bd19965f279a272483e5b67a9f572bc6c69e5c93c6ca67f4ded36d03f",
+    "pred_dinov2_l_seed4_messidor2.npz": "d949a6d9b4a3575d88c877ab0eddaca785977304c8d6b9925b43002b51907d3c",
+    "pred_dinov2_l_seed0_eyepacs.npz": "60d42248176d4d2e906b70d258966059036f788eb9a31a0b9e1cbed3baa79beb",
+    "pred_dinov2_l_seed1_eyepacs.npz": "f1c9938f549b02f644fb96d3809177ff259bda604a94fd2fee6d82ec09761598",
+    "pred_dinov2_l_seed2_eyepacs.npz": "851eb47d904b660d01087addc01456116315dd2a5cbb6ff7fd548de9105750a2",
+    "pred_dinov2_l_seed3_eyepacs.npz": "61c29fb4a7b3b03a1d7095414629a582aed56605a525084578f3cdb38194bedd",
+    "pred_dinov2_l_seed4_eyepacs.npz": "525f3da30a368406253b537de262232ff9fe0afe961150c70060fefe4cdb800d",
+    "pred_retfound_seed0_ddr.npz": "12fec1e6537bd954e2a2ffef4a33bcd28e56cf046bd2789cd52e62c267e612a6",
+    "pred_retfound_seed1_ddr.npz": "1789ca313ff93dacc3e1b06dcf346f35248ffeab800fc1950969f900ed81a70e",
+    "pred_retfound_seed2_ddr.npz": "074f44a9051802aa291949c44e866ff95b7f71a6649a76cd7c78d0cdc78d1983",
+    "pred_retfound_seed3_ddr.npz": "b4ba5f30d8681b5b9a027c3a624a82b16dc06ed369ace36264c007b146094137",
+    "pred_retfound_seed4_ddr.npz": "4b45e454e14a622e24dcc17cad2bf662432b935800fa17d35d0ad9c6cc6d8fd6",
+    "pred_retfound_seed0_jsiec.npz": "d0b3a6deeafb811504dad58ffc61d6bb4f431265c82ef334aa33a64beb6c7609",
+    "pred_retfound_seed1_jsiec.npz": "b5c4b8066d1bb88de89fe6f38f254f38c7e1ea45659a8eb5b045008e626c5b96",
+    "pred_retfound_seed2_jsiec.npz": "4b93f04d0b1103ea69b4637718c0c66fff255c699d39c0bd6607dc9627f3f4c5",
+    "pred_retfound_seed3_jsiec.npz": "e3690db78c3c96488b0a681417930594be6e23c1dc98f5a1becf179982aacc08",
+    "pred_retfound_seed4_jsiec.npz": "589f070c81453210e3e9d64d788ae531988f79f2164f02e76e125e05ab3aa87b",
+    "pred_retfound_seed0_deepdrid.npz": "5f84336c1464bcfce8b4861a82fa96cc40f278ca0388246d40064852772bd379",
+    "pred_retfound_seed1_deepdrid.npz": "ab3ac9f00fce31cfa25141f7f8a3c7ac00f3d7f1c7c72e38fdba6394e70b69cb",
+    "pred_retfound_seed2_deepdrid.npz": "dc9f9e071a49be5a127be95b488638f6d8998c98698e7f8886aff898ffad7c92",
+    "pred_retfound_seed3_deepdrid.npz": "c0d0b883e1350bd22464545ed1b012035e4e021a113139421ce13e98b19ab017",
+    "pred_retfound_seed4_deepdrid.npz": "8dddbaf0f5ca52b4c63b6cc312ff21de7117f277354eceb115020a24f2a688f4",
+    "pred_retfound_seed0_aptos.npz": "852d9f34fa0aa3428b766c43528b4b3b9bdf1a5cdb4be03fe6596fcca7e13de0",
+    "pred_retfound_seed1_aptos.npz": "04ad148dfbf329f9b7fd26f9437693c0274e31faa34898c140921c7863e349fb",
+    "pred_retfound_seed2_aptos.npz": "6e0ae3c49b54300e58da527af18f1e2a326a0ccbee5fc66a8da7b5c2dc30bef9",
+    "pred_retfound_seed3_aptos.npz": "e66d8c7c2b966b87ba969fd905ff07ff90ae533caeb73560d4578b9664f291f7",
+    "pred_retfound_seed4_aptos.npz": "d2e46a473f6301b7e5a6b450c8153d54e20963f0fc8c8c2be610a7ef9bdce9fb",
+    "pred_retfound_seed0_idrid.npz": "5927abcc2992d794d5c05f86bbc6cf8518a26a216d47bda1643bbf0ee13f526d",
+    "pred_retfound_seed1_idrid.npz": "d91e7d51f7cd426987bd96de6e164d325c97a0188d1ee730906c8f99444fb7e8",
+    "pred_retfound_seed2_idrid.npz": "e5ce05349671018fd30ca966dca554802a9a34f0f632cd39843093725726f300",
+    "pred_retfound_seed3_idrid.npz": "106fe0f623a2e48cafb1dcfc8507b746766a9958e8b91f1631e47aa18e3df88a",
+    "pred_retfound_seed4_idrid.npz": "5cf1c7e9b8b12a0ceaf2b7d32a462d9310a335dbb5157d381dd685c177cea0c4",
+    "pred_retfound_seed0_messidor2.npz": "d9e1a08fb9e270a070df4229db949877dd127a43af3fa2225ec94435ccb3aa9d",
+    "pred_retfound_seed1_messidor2.npz": "09e8df85d3ce49fb87ef4ef59d2e3514e3182d97c6c068940e734760507c3e73",
+    "pred_retfound_seed2_messidor2.npz": "fb0304e07b771784c7da00ae5641e957b7e514a31178bac09fb742f61dcb5ca6",
+    "pred_retfound_seed3_messidor2.npz": "faa9146e55a95d8b54090aef0d0a66bc6e79c3827da3c7be08366dca15fbfa3a",
+    "pred_retfound_seed4_messidor2.npz": "45c95c8915ff6110bea57963c44f8780ea9d82ea68c861bcdf5dab724d372398",
+    "pred_retfound_seed0_eyepacs.npz": "c5ff7cdf13e682124cd25e8d378c6c82005feee4975a4b24410d7f136f78e8c1",
+    "pred_retfound_seed1_eyepacs.npz": "b8622f11fb0be60e74cb13f58e63702c08d8fa5abfbe15cbdb9c74190021429c",
+    "pred_retfound_seed2_eyepacs.npz": "d7ee1563c298cca746000d976e1d805ba2e887b1682a848323f02ebdf9f7ecd8",
+    "pred_retfound_seed3_eyepacs.npz": "1a4e414e5e55fe5d0c457e2d51424d487d62a130e306786d1660871ac70905af",
+    "pred_retfound_seed4_eyepacs.npz": "f486cd484b0474428658a331233898c5c43f0c202fe99c1e42a5370498296982"
+  },
+  "script_sha256": "e2efff8eeb2a2c6d231e3f66e75f56d51e3b9da1820924a53d503e5c25ea2da1",
+  "reference_sha256": "4915d091e3a4cc211f9ec2f1b9fd2626753a6f46d5376e97be2ef4ff7c5dc754",
+  "curve_shapes": {
+    "ba|DINOv2|0.5": [
+      7,
+      40
+    ],
+    "auc|DINOv2|0.5": [
+      7,
+      40
+    ],
+    "ba|DINOv2|0.2": [
+      7,
+      40
+    ],
+    "auc|DINOv2|0.2": [
+      7,
+      40
+    ],
+    "ba|DINOv2|0.1": [
+      7,
+      40
+    ],
+    "auc|DINOv2|0.1": [
+      7,
+      40
+    ],
+    "ba|DINOv2|0.088": [
+      7,
+      40
+    ],
+    "auc|DINOv2|0.088": [
+      7,
+      40
+    ],
+    "ba|RETFound|0.5": [
+      7,
+      40
+    ],
+    "auc|RETFound|0.5": [
+      7,
+      40
+    ],
+    "ba|RETFound|0.2": [
+      7,
+      40
+    ],
+    "auc|RETFound|0.2": [
+      7,
+      40
+    ],
+    "ba|RETFound|0.1": [
+      7,
+      40
+    ],
+    "auc|RETFound|0.1": [
+      7,
+      40
+    ],
+    "ba|RETFound|0.088": [
+      7,
+      40
+    ],
+    "auc|RETFound|0.088": [
+      7,
+      40
+    ]
+  },
+  "nonfinite_curve_counts": {
+    "ba|DINOv2|0.5": 0,
+    "auc|DINOv2|0.5": 0,
+    "ba|DINOv2|0.2": 0,
+    "auc|DINOv2|0.2": 0,
+    "ba|DINOv2|0.1": 21,
+    "auc|DINOv2|0.1": 23,
+    "ba|DINOv2|0.088": 30,
+    "auc|DINOv2|0.088": 28,
+    "ba|RETFound|0.5": 0,
+    "auc|RETFound|0.5": 0,
+    "ba|RETFound|0.2": 0,
+    "auc|RETFound|0.2": 0,
+    "ba|RETFound|0.1": 21,
+    "auc|RETFound|0.1": 22,
+    "ba|RETFound|0.088": 28,
+    "auc|RETFound|0.088": 31
+  },
+  "nonfinite_interpretation": "Absent-class draws count as failures. Raw curve arrays retain inf/NaN; plot medians and IQRs use finite cohort quantiles.",
+  "scope": "Public PDR/NPDR resampling simulation; no treatment-outcome clinical records, image identifiers or individual clinical predictions."
+}

@@ -1,29 +1,70 @@
 # Analysis code and released inputs
 
-Run commands below from the repository root. Numbered scripts retain the study's computational methods. `prepare_public_results.py` copies released inputs into the expected `analysis/results/` layout without overwriting existing working files. It never changes `public_outputs/`.
+Run commands below from the repository root. Script 78 is the current performance-estimator analysis and reads `public_outputs/` directly. Older numbered scripts are retained for provenance; scripts 46, 75, and 77 are superseded for current estimator results. `prepare_public_results.py` remains available for other analyses: it copies released inputs into the expected `analysis/results/` layout without overwriting existing working files or changing `public_outputs/`.
+
+## Clinical endpoint and historical identifiers
+
+The development-cohort endpoint is persistent or recurrent retinal/optic-disc neovascularization after six ranibizumab injections versus documented regression. NVE and/or NVD was already present before the first injection and at acquisition of the photographs used for prediction. Class 1 is persistence/recurrence; class 0 is documented regression. The earlier `intolerant`/`PDR` and `tolerant`/`NPDR` names are retained only as historical computational identifiers in the development data and outputs; they are not baseline DR grades, incident-PDR labels, or adverse-drug-intolerance outcomes.
+
+The public cohorts and the DDR same-task control continue to use cross-sectional PDR versus NPDR. Do not globally replace those labels or interpret the public proxy as a treatment-response endpoint. Correcting the development endpoint wording does not relabel records, change model weights or thresholds, or recompute stored scores. The main analysis still crosses clinical tasks; the same-task control compares public PDR/NPDR tasks.
+
+Original analysis scripts, configuration comments, stored summary keys and older figure labels may still use `tolerant`, `intolerant`, or development-cohort `NPDR`/`PDR` names. Their interpretation is the class mapping above. In particular, historical figure generators 63 and 71 and the patient-level explanation in script 56 predate this clarification and contain obsolete progression wording. They are preserved as computational history, not as current clinical definitions or ready-to-use manuscript captions; historical images should not be reused without corrected endpoint labels.
 
 ## Recompute from released inputs
 
 ```bash
-python analysis/prepare_public_results.py
 python analysis/verify_public_outputs.py
-python analysis/scripts/75_estimator_baselines.py
-python analysis/scripts/77_same_task_estimators.py
+python analysis/scripts/78_metric_matched_estimators.py --self-test
+python analysis/scripts/78_metric_matched_estimators.py
 ```
 
 | Analysis | Script | Available inputs and requirements |
 |---|---|---|
 | External AUCs and per-model balanced accuracy | `verify_public_outputs.py` | All 70 external prediction files; compares with the stored per-model table and ensemble summaries |
-| Estimators and no-shift baseline | `scripts/75_estimator_baselines.py` | Released estimator rows and model-level anchor summaries; does not regenerate the restricted anchor predictions |
-| Same-task control estimators | `scripts/77_same_task_estimators.py` | 110 prediction files from DDR-trained models; balanced and natural-prevalence target settings |
+| Current same-task estimators and No-shift | `scripts/78_metric_matched_estimators.py` | 110 prediction files from DDR-trained models; yields 60 balanced-target and 40 natural-prevalence model/cohort rows |
+| Current main-analysis estimators and No-shift | `scripts/78_metric_matched_estimators.py --clinical-anchor /approved/local/anchor.npz` | 70 public target prediction files plus an explicitly supplied restricted source-anchor file; only aggregate results are exported |
 | Cohort forest plot and fixed-effect pooling | `scripts/40_external_meta.py` | Public external predictions and released held-out aggregate reference; bootstrap computation |
 | Random-effects pooling and variance components | `scripts/72_random_effects.py` | Public external predictions; bootstrap computation |
 | Label-free signal plots | `scripts/45_shift_all_figure.py` | Released shift and agreement summaries; original feature extraction still requires restricted inputs |
-| Local validation sampling analysis | `scripts/74_local_validation_cost.py` | Public external predictions; repeated resampling, potentially lengthy |
+| Current local validation sampling analysis | `revision_20261110/recompute_local_validation_cost.py` | Reads public external predictions directly; complete resampling run and aggregate comparison |
+| Current sampling figures | `revision_20261110/plot_local_validation_cost.py` | Reads the current released aggregate curves directly; no estimator-MAE benchmark |
 
-The latter four commands can be run after preparation. They were not rerun as part of the release checks. Script 74 estimates sampling requirements from public PDR/NPDR score distributions, not clinical sample requirements validated on treatment-outcome cohorts.
+Scripts 40, 72 and 45 can be run after `python analysis/prepare_public_results.py`; they were not rerun during this revision. The current sampling simulation and all four generators in [revision_20261110/](revision_20261110/README.md) were executed on 10 November 2026. The resampling aggregate and 16 error-curve arrays matched the released references exactly. These simulations estimate sampling requirements from public PDR/NPDR score distributions, not clinical sample requirements validated on treatment-outcome cohorts. Their current outputs are in `public_outputs/local_validation_revision/`.
 
 Same-task anchor files are predictions on the **public DDR** anchor split. They contain no in-house anchor observations. The in-house estimator anchors are provided only as model-level aggregate statistics.
+
+## Current estimator protocol and outputs
+
+Script 78 implements ALine-D's joint probit-space equations and ALine-S's fitted probit line, using the author code's pair filter `0.05 <= agreement <= 0.98` in both domains. It implements ATC-MC with an empirical source-accuracy matching threshold and no temperature scaling, plus the unit-slope, regression-free **DoC-Feat** and No-shift. DoC-Feat is distinct from Guillory et al.'s fitted DoC regression. Target labels are passed only to evaluation, not to the estimator functions; all class predictions use `p > 0.5` without target-specific threshold tuning.
+
+The `primary` protocol uses ordinary source accuracy and is evaluated primarily against ordinary target accuracy. The `source_ba` protocol changes only the source accuracy quantity to source BA in the same formulas. This is a sensitivity adaptation, not a claim that the published methods estimate BA. Both target accuracy and BA are recorded so their estimands remain explicit.
+
+Default regenerated outputs are in `analysis/results/metric_matched/`; the current released snapshot is in `analysis/public_outputs/metric_matched/`:
+
+- `same_task_model_metrics.csv`: 100 model/cohort rows, including target accuracy, BA, sensitivity/specificity, source quantities and both protocols' estimates.
+- `main_model_metrics.csv`: 70 model/cohort aggregate rows, generated only when an approved local clinical anchor is supplied; contains no individual clinical predictions or labels.
+- `summary.json`: estimation error and signed bias for each setting/protocol/metric, valid counts and No-shift results on the same available rows.
+- `diagnostics.json`: agreement-pair filtering, regression fits, design-matrix rank, unavailable models and ATC threshold matching.
+- `anchor_aggregate.json` and `metadata.json`: aggregate source metrics, source-file digests, environment versions, numerical conventions and reproduction command.
+
+In the main analysis, all 10 Messidor-2 ALine-D values are unidentifiable after filtering leaves 9 equations of rank 9 for 10 model quantities. Their CSV rows remain present with missing estimates and explicit status. ALine-D's 60-row MAE is 0.227, versus 0.232 for No-shift on those same 60 rows. Other main estimators have 70 available rows. In the same-task control all 100 rows are available: the four estimators' ordinary-accuracy MAEs are 0.179–0.200 on balanced targets and 0.043–0.049 on natural-prevalence targets (No-shift: 0.222 and 0.052).
+
+The NPZs do not contain sample identifiers. Exact label-order agreement across models is checked, but that alone cannot independently authenticate image identity/order. The original clinical-anchor NPZ is restricted, must be supplied through `--clinical-anchor`, and is never copied to the public output directory.
+
+## Historical estimator and sampling analyses
+
+These files remain unchanged as calculation records and are not the current estimator results:
+
+| Historical item | Reason superseded |
+|---|---|
+| `scripts/46_aline_atc_doc.py` | Its ALine-D label denotes a raw agreement-drop heuristic; source BA is substituted into accuracy estimators, and its unit-slope DoC should be called DoC-Feat. |
+| `scripts/75_estimator_baselines.py` | Scores the above historical estimates and BA-anchored No-shift baseline. |
+| `scripts/77_same_task_estimators.py` | Applies those historical definitions to the same-task control. |
+| `scripts/74_local_validation_cost.py` | Contains the superseded estimator-MAE benchmark; use `revision_20261110/recompute_local_validation_cost.py` and `plot_local_validation_cost.py` for current sampling results and figures. |
+| `public_outputs/aggregate/aline_atc_doc.json`, `public_outputs/aggregate/estimator_baselines.json` | Historical main estimator snapshots consumed by scripts 46/75/77. |
+| `public_outputs/same_task/estimators.json`, `public_outputs/same_task/same_task_rows.csv` | Historical same-task estimates; the prediction NPZs in that directory remain current inputs to script 78. |
+
+Other aggregate summaries may embed old estimator numbers; current estimator values should be taken from `metric_matched/`, not from legacy text-number or figure outputs. Reproducing a historical snapshot confirms consistency with that calculation, not fidelity to a published algorithm.
 
 ## Training and analyses requiring additional inputs
 
@@ -32,7 +73,7 @@ Same-task anchor files are predictions on the **public DDR** anchor split. They 
 | Backbone comparison, cross-validation, label efficiency | `27`, `28`, `tcm_retina/` | Approved development images and patient-level split manifest |
 | External seed-model training and scoring | `38`, with DeLong helper `06` | Development data, public images, and pretrained backbones |
 | Same-task DDR control training | `76`, importing `27` | Public cohort images and pretrained backbones |
-| Shift metrics, agreement/confidence, performance estimation | `42`, `44`, `46`, `47` | Restricted anchor predictions or embeddings in addition to public results |
+| Shift metrics and agreement/confidence summaries | `42`, `44`, `47` | Restricted anchor predictions or embeddings in addition to public results; estimator analysis now uses `78` |
 | Held-out and device-stratified internal analysis | `56`, `60`, `61`, `62`, `66` | Restricted development-cohort predictions and metadata |
 | Per-model table and model provenance | `64`, `69` | Restricted anchor arrays/splits or deployment checkpoint; released summary tables remain available |
 | Recalibration, uncertainty, supporting figures | `30`, `31`, `32`, `57`, `73` | Development predictions, images, or derived features, depending on the script |
@@ -51,6 +92,7 @@ Scripts `39` and `41` prepare datasets already obtained from their distributors.
 - `same_task/pred_*.npz`: the same two numeric arrays for the DDR anchor and target sets.
 - `same_task/split.csv`: public DDR image identifier, grade, binary label, and split role.
 - `aggregate/per_seed_table.csv`: one row per model and cohort, including aggregated in-house anchor metrics; no individual in-house observations.
+- `local_validation_revision/local_validation_curves.npz`: 16 aggregate error-quantile arrays, each with 7 cohort rows and 40 sample-size columns; these are simulation summaries, not individual prediction arrays. Nonfinite values record absent-class draws and are documented in `cache_metadata.json`.
 - Other JSON/CSV files: released summaries. Preserve these as reference inputs; write regenerated results to `results/`.
 
 Historical figure/section numbers remain in some original code comments. The purpose map above identifies the analyses independently of those earlier numbering conventions. The older finite-subset sampling script and screenshot-packaging helper are excluded from this release.

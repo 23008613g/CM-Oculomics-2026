@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Models for anti-VEGF intolerance prediction.
+Models for persistent/recurrent neovascularization versus documented regression
+after six ranibizumab injections, using photographs with baseline NVE/NVD.
+Historical tolerant/intolerant names are computational identifiers, not drug
+intolerance or baseline DR grades.
 
 PRIMARY: DINOv2 (ViT-L/14) — a generalist vision foundation model (Meta AI, Apache-2.0),
 fine-tuned for binary classification. Released fine-tuned weights (dino_deploy.pth) are
@@ -20,7 +23,7 @@ class FundusClassifier(nn.Module):
     """ViT-L/16 backbone (RETFound-initialized) + linear head.
 
     Args:
-        num_classes: 2 (tolerant / intolerant).
+        num_classes: 2 (documented regression / persistent or recurrent neovascularization).
         retfound_weights: path to RETFound .pth, or None to start from timm init.
         drop_rate: dropout for the head.
     """

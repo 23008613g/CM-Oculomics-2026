@@ -1,0 +1,101 @@
+{
+  "schema_version": 1,
+  "revision": "2026-11-10",
+  "input_root": "analysis/public_outputs/metric_matched",
+  "files": {
+    "same_task_model_metrics.csv": {
+      "sha256": "83c239e943e4d532e395ee39afaad6aa09b033c369f3ace279ad6e46fc92bff8",
+      "columns": [
+        "setting",
+        "cohort",
+        "model",
+        "backbone",
+        "n",
+        "n_positive",
+        "prevalence",
+        "source_n",
+        "source_n_positive",
+        "source_accuracy",
+        "source_balanced_accuracy",
+        "aline_pairs_retained",
+        "aline_design_rank",
+        "aline_d_status",
+        "actual_accuracy",
+        "balanced_accuracy",
+        "sensitivity",
+        "specificity",
+        "primary_ALine-D",
+        "primary_ALine-S",
+        "primary_ATC-MC",
+        "primary_DoC-Feat",
+        "primary_No-shift",
+        "source_ba_ALine-D",
+        "source_ba_ALine-S",
+        "source_ba_ATC-MC",
+        "source_ba_DoC-Feat",
+        "source_ba_No-shift"
+      ],
+      "rows": 100
+    },
+    "main_model_metrics.csv": {
+      "sha256": "ef9e250bdb33ca29044843839ebaefe1bd62fb38b7dab7191d81ad910a2da78c",
+      "columns": [
+        "setting",
+        "cohort",
+        "model",
+        "backbone",
+        "n",
+        "n_positive",
+        "prevalence",
+        "source_n",
+        "source_n_positive",
+        "source_accuracy",
+        "source_balanced_accuracy",
+        "aline_pairs_retained",
+        "aline_design_rank",
+        "aline_d_status",
+        "actual_accuracy",
+        "balanced_accuracy",
+        "sensitivity",
+        "specificity",
+        "primary_ALine-D",
+        "primary_ALine-S",
+        "primary_ATC-MC",
+        "primary_DoC-Feat",
+        "primary_No-shift",
+        "source_ba_ALine-D",
+        "source_ba_ALine-S",
+        "source_ba_ATC-MC",
+        "source_ba_DoC-Feat",
+        "source_ba_No-shift"
+      ],
+      "rows": 70
+    },
+    "summary.json": {
+      "sha256": "03ceb4e47a5c63e7d7056464615710c613e3985ed8f13cd275f1542588c4b085"
+    },
+    "diagnostics.json": {
+      "sha256": "64821c13b64981307f374a7c94a3f831e8ffef7a17cf19c3da7cb230b55504a8"
+    },
+    "metadata.json": {
+      "sha256": "a78ddc688341899e951729c04d20887785df00380091be3084ef9eb34b73bfdd"
+    },
+    "anchor_aggregate.json": {
+      "sha256": "dd03d1e370d0ea113cfa6ff7cf199a73955e0f0854d11f7faf0053687a901d42"
+    }
+  },
+  "figures": {
+    "Fig5": {
+      "setting": "main_balanced",
+      "rows": 70,
+      "protocol": "primary",
+      "evaluation": "actual_accuracy"
+    },
+    "FigS14": {
+      "setting": "same_task_natural",
+      "rows": 40,
+      "rows_panels": "primary/actual_accuracy and source_ba/balanced_accuracy"
+    }
+  },
+  "scope": "Released aggregate model/cohort metrics. No manuscript, private images or individual clinical predictions are inputs."
+}

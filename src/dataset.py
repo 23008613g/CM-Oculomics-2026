@@ -4,7 +4,12 @@ Fundus image dataset and transforms.
 
 Expects a manifest CSV with columns:
     image_path,label[,patient_id]
-where label in {0,1}  (0 = tolerant / NPDR, 1 = intolerant / PDR).
+where label is in {0,1}. For the development cohort, 0 = documented regression
+and 1 = persistent/recurrent retinal or optic-disc neovascularization after six
+ranibizumab injections; NVE/NVD was already present in baseline photographs.
+Legacy tolerant/NPDR and intolerant/PDR identifiers retain this mapping and do
+not describe baseline DR grades or adverse-drug intolerance. Public-cohort
+PDR/NPDR labels instead retain their cross-sectional grading meaning.
 patient_id is optional but recommended for patient-level cross-validation splits.
 
 NO patient data is distributed with this repository; supply your own
