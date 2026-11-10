@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "validated_utc": "2026-11-10T01:38:00.100020+00:00",
+  "pass": true,
+  "rendering_environment": {
+    "python": "3.11.9",
+    "matplotlib": "3.10.9"
+  },
+  "entrypoint": "analysis/revision_20261110/draw_clinical_schematics.py",
+  "command_template": "python analysis/revision_20261110/draw_clinical_schematics.py --output-dir <isolated-validation-output>",
+  "execution": "The updated public entrypoint was actually executed once with default alignment_qa=False in an isolated directory.",
+  "figure1_dimensions_mm": [
+    183,
+    126
+  ],
+  "source_sha256": {
+    "draw_clinical_schematics.py": "fa90b6f9f9d968ee1671eeb834476d903c1906bb0c08e116b9c8c4c68adfa348",
+    "draw_figure1.py": "3668ad7ac2ccd1f36c69e93a1b3520ff68372061e276ac3332d029731a0f385d"
+  },
+  "png_comparisons": [
+    {
+      "figure": "Figure1_study_design_corrected",
+      "reference_role": "new standalone Figure 1 render",
+      "png_sha256": "ca2ec9e65ddf14f51b4d57dd85fa3bc4ed91693ab87b65593b8ffae13365b649",
+      "reference_png_sha256": "ca2ec9e65ddf14f51b4d57dd85fa3bc4ed91693ab87b65593b8ffae13365b649",
+      "byte_identical": true
+    },
+    {
+      "figure": "FigureS1_framework_corrected",
+      "reference_role": "previous public schematic entrypoint render",
+      "png_sha256": "f4e66e620f4b0f5df8a2dce44fb30015623fc9bfe0e0dc843e4876b9c3e1b0a9",
+      "reference_png_sha256": "f4e66e620f4b0f5df8a2dce44fb30015623fc9bfe0e0dc843e4876b9c3e1b0a9",
+      "byte_identical": true
+    },
+    {
+      "figure": "FigureS7_implementation_schematic",
+      "reference_role": "previous public schematic entrypoint render",
+      "png_sha256": "2a8d993d31cef5fabe848f26460c062e5bd8143179f58eac6b9e61e329ceafff",
+      "reference_png_sha256": "2a8d993d31cef5fabe848f26460c062e5bd8143179f58eac6b9e61e329ceafff",
+      "byte_identical": true
+    }
+  ],
+  "figure1_exports": {
+    ".pdf": {
+      "sha256": "b0a03379a1725d9cd754c87f090d4985c30e5d484c04ee710432bf0a9fe71541",
+      "bytes": 63380
+    },
+    ".svg": {
+      "sha256": "40bb528e1c318e2bef5fdda9691717feeb49587540d718f03a5d7fc7aca909a6",
+      "bytes": 35981
+    },
+    ".png": {
+      "sha256": "ca2ec9e65ddf14f51b4d57dd85fa3bc4ed91693ab87b65593b8ffae13365b649",
+      "bytes": 743775,
+      "pixel_dimensions": [
+        4322,
+        2976
+      ],
+      "dpi": [
+        599.9988,
+        599.9988
+      ]
+    },
+    ".tiff": {
+      "sha256": "a49cf4133f58b76720b63bea9c7ae67cc5a2b8a12705f115be3e0cebac632c5a",
+      "bytes": 1449406,
+      "pixel_dimensions": [
+        4322,
+        2976
+      ],
+      "dpi": [
+        600.0,
+        600.0
+      ]
+    },
+    ".preview.png": {
+      "sha256": "029cdc0a94e88aef89c624bd07cc659674b1913b2281b43e98d2e10ec6a3a3a3",
+      "bytes": 338310,
+      "pixel_dimensions": [
+        2161,
+        1488
+      ],
+      "dpi": [
+        299.9994,
+        299.9994
+      ]
+    }
+  },
+  "style_isolation": "Figure 1 is generated inside matplotlib.rc_context so its style changes do not affect the existing S1/S7 exports.",
+  "previous_validation": {
+    "file": "validation.json",
+    "sha256": "0f1171a965d59574906339c1fc28325df70914c7ec00f194a39b4fef3a07d528",
+    "preserved_unchanged": true,
+    "scope": "Earlier public figure bundle before the Figure 1 redesign; this record does not revise its historical execution claims."
+  },
+  "qa_scope": "Actual execution, source/output hashes, export formats/resolution, and exact PNG equivalence. External alignment/collision audits and visual review were not rerun by this entrypoint check.",
+  "not_executed": [
+    "Resampling simulation",
+    "Training",
+    "New image inference",
+    "Git commit",
+    "Git push"
+  ]
+}

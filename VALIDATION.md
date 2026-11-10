@@ -34,6 +34,10 @@ Executed all four portable figure-generation scripts in `analysis/revision_20261
 
 Ran `analysis/verify_public_outputs.py` after distinguishing prediction archives from the aggregate curve cache. The check passed for 180 prediction files, 70 per-model metric rows, 14 external ensembles, 11 same-task sets and 16 aggregate error curves. The curve checks cover declared fields, numeric type, shape, error range, recorded nonfinite counts and input/reference digests. Unknown or missing NPZ files are rejected. Positive infinity and NaN quantiles from absent-class simulation draws remain explicitly recorded, rather than being treated as valid probability predictions.
 
+## Figure 1 design update on 10 November 2026
+
+The later Figure 1 design update is documented in `analysis/revision_20261110/figure1_design_validation.json`. The current schematic entrypoint reproduces the redesigned Figure 1 and preserves Fig. S1/S7 PNGs byte-for-byte. This update changes layout and clarifies the linked-subset partition and external-model seed count; it does not change numerical analyses. The earlier figure-bundle record remains unchanged.
+
 ## Historical release checks on 6 November 2026
 
 Using Python 3.11.9 in the existing project environment:

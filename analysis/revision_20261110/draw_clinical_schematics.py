@@ -85,41 +85,11 @@ def export(fig, name):
     plt.close(fig)
 
 
-# Figure 1: compact evidence map at the actual main-document width.
-width_mm = 152.4
-fig = plt.figure(figsize=(width_mm/25.4, (width_mm/1.79)/25.4))
-gs = fig.add_gridspec(2, 3, height_ratios=[1, 1.25], left=.025, right=.98,
-                      top=.925, bottom=.025, wspace=.12, hspace=.13)
-fig.suptitle('Study design and evaluation', x=.5, y=.985, fontsize=9, fontweight='bold')
-a = fig.add_subplot(gs[0, :])
-b, c, d = [fig.add_subplot(gs[1, i]) for i in range(3)]
-setup(a, 'a', 'Clinical cohort and treatment-response endpoint')
-card(a, 0, .01, .31, .78, 'Development cohort',
-     '489 patients; 988 photographs\n2021–2024; three camera setups\nClinical-record subset:\n465 patients; 945 images')
-card(a, .345, .01, .31, .78, 'Baseline and treatment',
-     'NVE/NVD already present\nPretreatment fundus photograph\nSix monthly ranibizumab\ninjections', color='orange')
-card(a, .69, .01, .31, .78, 'Post-treatment outcome',
-     'Persistent/recurrent\nneovascularization\nversus documented regression\nAfter six injections', color='green')
-arrow(a, (.31, .40), (.345, .40))
-arrow(a, (.655, .40), (.69, .40))
-setup(b, 'b', 'Image-only model and splits', size=7.1)
-card(b, 0, 0, 1, .85, 'Model and patient-disjoint splits',
-     'DINOv2 ViT-L/14: primary\nRETFound ViT-L/16: comparator\n224 px; 5 seeds per backbone\n\n'
-     '5-fold CV: 805 images, 396 patients\n71 outcome-positive images\n\n'
-     'Held-out: 140 images, 69 patients\n11 outcome-positive images',
-     color='orange', title_size=6.5, body_size=6.2, body_y=.20)
-setup(c, 'c', 'Internal and external evaluation', size=6.9)
-card(c, 0, 0, 1, .85, 'Internal evaluation',
-     'Pooled out-of-fold and held-out\nCalibration; subgroups; devices\nGrad-CAM; vascular measures\n\n'
-     'Independent public proxy task\nPDR vs NPDR; no fine-tuning\n7 cohorts across 3 continents\n3,016 class-balanced images',
-     color='green', body_size=6.2, body_y=.20)
-setup(d, 'd', 'Transfer and public release', size=7.1)
-card(d, 0, 0, 1, .85, 'Transfer assessment',
-     '5 label-free shift signals\n4 estimators: ALine-D, ALine-S,\nDoC-Feat and ATC-MC\n\n'
-     'Internal held-out anchor\nSame-task public controls\nLocal validation label needs\n\n'
-     'Public code and model weights',
-     color='purple', body_size=6.2, body_y=.20)
-export(fig, 'Figure1_study_design_corrected')
+# Figure 1 uses the current 183 x 126 mm study-design flowchart.
+# Isolate its style settings so the established S1/S7 exports remain unchanged.
+from draw_figure1 import build_figure1
+with plt.rc_context():
+    build_figure1(BASE, alignment_qa=args.alignment_qa)
 
 
 # Figure S1: explicitly prospective hypothesis; no management recommendation.
