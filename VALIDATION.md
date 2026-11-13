@@ -2,6 +2,35 @@
 
 Prepared on 6 November 2026 from the current study scripts and the previously released public-cohort outputs. The manuscript and submission correspondence are kept separately.
 
+## JMS submission cleanup and public checks on 13 November 2026
+
+The current tree was prepared for the Journal of Medical Systems collection *Clinical AI Governance, Safety, and Algorithmovigilance*, starting from commit `6a4cad6555ce1a89b275302a6ef70c2771d19f0a`. Earlier execution records below refer to their stated dates and repository versions.
+
+Removed superseded estimator scripts 46/75/77 and their four result snapshots, the earlier script 74 sampling benchmark and its snapshot, dependent script 64, superseded schematic scripts 63/71 and the obsolete screenshot helper. Removed three standalone training engines for unreported augmentation, syndrome-guided contrastive experiments and a fixed-fold label-efficiency experiment. The reported five-fold label-efficiency route remains in script 27 and its supporting figure code. These files remain in Git history. The 80 rows of `aggregate/per_seed_table.csv` retain their original first 11 count/metric fields; only four obsolete estimator columns were removed. All 180 public prediction files, current estimator results, current sampling aggregates and the necessary syndrome/fusion analyses remain. The input-preparation map and schematic provenance dependencies were updated accordingly.
+
+The current Figure 1 drawing body matches the deterministic source supplied with the 12 November submission; only its CLI output defaults were adapted to the repository's ignored results directory. Its geometric alignment helper is included. The schematic wrapper was updated for the new function signature. Figure numbering for the JMS submission is mapped in the root README. Submission documents, patient images, clinical individual-level records, ethics materials and weights are not added to this repository.
+
+Executed using the existing isolated environment: Python 3.11.9, NumPy 2.4.4, pandas 3.0.3, SciPy 1.17.1, scikit-learn 1.8.0, Matplotlib 3.10.9 and Pillow 12.2.0. No packages were installed or upgraded.
+
+```bash
+python analysis/verify_public_outputs.py
+python analysis/scripts/78_metric_matched_estimators.py --self-test
+python analysis/scripts/78_metric_matched_estimators.py --output-dir analysis/results/jms_check/metric_matched
+python analysis/revision_20261110/build_estimator_figures.py --output-dir analysis/results/jms_check/estimators
+python analysis/revision_20261110/plot_local_validation_cost.py --output-dir analysis/results/jms_check/sampling
+python analysis/revision_20261110/draw_clinical_schematics.py --output-dir analysis/results/jms_check/schematics --alignment-qa
+```
+
+Results:
+
+- The verifier passed for 180 prediction files, 16 aggregate curves, 70 per-model metric rows, 14 ensemble AUCs and 11 same-task sets.
+- Script 78's synthetic invariant checks passed. The public-only recomputation produced 100 same-task rows; its CSV was byte-identical to the released CSV (SHA-256 `83c239e943e4d532e395ee39afaad6aa09b033c369f3ace279ad6e46fc92bff8`). Corresponding same-task sections of the summary, diagnostics and anchor aggregate matched exactly.
+- Current estimator and sampling figures rendered from the released aggregates. Sampling plots emitted the expected `All-NaN slice` warnings at small sample sizes with absent-class draws; no source cache values were changed. The full resampling simulation was not rerun for this cleanup.
+- Figure 1, S1 and S7 geometric alignment checks passed with no reported failures or warnings. Figure 1's PNG is RGB, 4,322 × 2,976 pixels at approximately 600 dpi (SHA-256 `aa502485f7319bf7c213945737b3e7aa298789112e099ba32b5afa69b5dfb628`). S1 and S7 PNG hashes remain identical to the 10 November recorded renders. The check concerns panel geometry; it is not an independent visual or clinical review.
+- All 69 retained/new Python files parsed and all 29 retained JSON files loaded. The 80 × 11 retained per-model values matched the prior table exactly. Current public numerical inputs were unchanged apart from removal of the obsolete estimator columns/snapshots. The tracked/new-file selection excludes document, image, spreadsheet and checkpoint artifacts.
+
+`SHA256SUMS` was regenerated for the retained/new release files and checked against their bytes. Generated figures, working results and local execution logs remain outside version control. No model training, checkpoint-based inference, restricted-data analysis, remote demonstration redeployment or Zenodo deposit was performed during this cleanup. These checks establish the stated computational consistency, not prospective clinical validity or complete reproduction of restricted-data analyses.
+
 ## Author-confirmed endpoint clarification on 10 November 2026
 
 The study author confirmed that NVE/NVD was present before the first ranibizumab injection and at acquisition of the baseline photographs used for prediction. The development outcome is persistent or recurrent retinal/optic-disc neovascularization after six injections versus documented regression, rather than NPDR-to-PDR onset/progression or adverse-drug intolerance. Positive class 1 and negative class 0 retain their original assignments; `intolerant`/`PDR` and `tolerant`/`NPDR` are historical development-cohort identifiers, not baseline DR grades. Public-cohort PDR/NPDR proxy labels retain their cross-sectional meaning.

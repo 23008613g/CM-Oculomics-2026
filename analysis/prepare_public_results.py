@@ -27,8 +27,7 @@ def main():
         if path.is_file():
             count += copy_missing(path, ROOT / "results" / "same_task" / path.name)
     external = {
-        "agreement_confidence.json", "aline_atc_doc.json", "estimator_baselines.json",
-        "external2_summary.json", "local_validation_cost.json", "meta_summary.json",
+        "agreement_confidence.json", "external2_summary.json", "meta_summary.json",
         "per_seed_table.csv", "random_effects.json", "shift_metrics.json", "subcohort.json",
     }
     for path in (PUBLIC / "aggregate").iterdir():

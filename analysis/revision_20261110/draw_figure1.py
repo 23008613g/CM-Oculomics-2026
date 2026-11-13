@@ -11,7 +11,8 @@ import json
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-from matplotlib.patches import FancyArrowPatch, FancyBboxPatch, Circle, Rectangle
+from matplotlib.patches import FancyArrowPatch, FancyBboxPatch, Circle
+from PIL import Image
 
 WIDTH_MM = 183
 HEIGHT_MM = 126
@@ -32,33 +33,22 @@ def text(ax, x, y, label, size=7, color=INK, weight="normal", ha="left", va="top
 
 
 def box(ax, x, y, w, h, fill="white", edge=LINE, radius=1.2, lw=.55):
+    lw = max(lw, 1.0)
     ax.add_patch(FancyBboxPatch((x, y), w, h,
                  boxstyle=f"round,pad=0,rounding_size={radius}",
                  facecolor=fill, edgecolor=edge, linewidth=lw))
 
 
 def arrow(ax, start, end, color=MUTED, lw=.65):
+    lw = max(lw, 1.0)
     ax.add_patch(FancyArrowPatch(start, end, arrowstyle="-|>",
                  mutation_scale=6, linewidth=lw, color=color,
                  shrinkA=.7, shrinkB=.7))
 
 
 def line(ax, points, color=LINE, lw=.6):
+    lw = max(lw, 1.0)
     ax.plot(*zip(*points), color=color, linewidth=lw, solid_capstyle="round")
-
-
-def camera(ax, x, y, color=TEAL):
-    box(ax, x, y, 8.5, 5.8, edge=color, radius=.6, lw=.7)
-    ax.add_patch(Circle((x+4.5, y+2.9), 1.8, fill=False, edgecolor=color, linewidth=.7))
-    line(ax, [(x+1.3, y+5.8), (x+2.1, y+7), (x+5.2, y+7), (x+6, y+5.8)], color, .7)
-
-
-def patches(ax, x, y, color):
-    for row in range(3):
-        for col in range(3):
-            ax.add_patch(Rectangle((x+col*1.65, y+row*1.65), 1.2, 1.2,
-                         linewidth=.45, edgecolor=color,
-                         facecolor=color if row == col else "white"))
 
 
 def panel(fig, letter, title, rect):
@@ -72,9 +62,11 @@ def panel(fig, letter, title, rect):
     return ax
 
 
-def build_figure1(output_dir, alignment_qa=False, stem="Figure1_study_design_corrected"):
+def build_figure1(output_dir, qa_dir, stem="Figure1"):
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
+    qa_dir = Path(qa_dir)
+    qa_dir.mkdir(parents=True, exist_ok=True)
     plt.rcParams.update({"font.family": "sans-serif", "font.sans-serif": ["Arial", "Helvetica", "DejaVu Sans"],
                          "font.size": 7, "pdf.fonttype": 42, "svg.fonttype": "none",
                          "savefig.facecolor": "white", "axes.linewidth": .6})
@@ -92,9 +84,8 @@ def build_figure1(output_dir, alignment_qa=False, stem="Figure1_study_design_cor
     text(a, 3, 11, "988 photographs", 7.3)
     text(a, 3, 5.7, "2021–2024 · 3 camera setups", 6.2, MUTED)
     arrow(a, (36, 11.5), (41, 11.5))
-    camera(a, 43, 12.3)
-    text(a, 54, 20, "Pretreatment", 7.2, TEAL, "bold")
-    text(a, 54, 16, "photograph", 6.8)
+    text(a, 43, 20, "Pretreatment", 7.2, TEAL, "bold")
+    text(a, 43, 16, "photograph", 6.8)
     text(a, 43, 9.2, "Baseline PDR", 7, INK, "bold")
     text(a, 43, 5.3, "NVE/NVD present", 6.5, MUTED)
     arrow(a, (75, 11.5), (80, 11.5))
@@ -103,7 +94,7 @@ def build_figure1(output_dir, alignment_qa=False, stem="Figure1_study_design_cor
     line(a, [(84, 10.5), (121, 10.5)], TEAL, .8)
     for i in range(6):
         x = 84+i*7.4
-        a.add_patch(Circle((x, 10.5), 1, facecolor="white", edgecolor=TEAL, linewidth=.75))
+        a.add_patch(Circle((x, 10.5), 1, facecolor="white", edgecolor=TEAL, linewidth=1.0))
         text(a, x, 7.6, str(i+1), 6.2, MUTED, ha="center")
     line(a, [(123, 10.5), (127.5, 10.5), (127.5, 17.5)], MUTED, .65)
     line(a, [(127.5, 10.5), (127.5, 6)], MUTED, .65)
@@ -115,12 +106,10 @@ def build_figure1(output_dir, alignment_qa=False, stem="Figure1_study_design_cor
     text(a, 153, 7.9, "Documented regression", 6.6, TEAL, "bold", ha="center")
 
     # b: the linked subset, not the full photograph cohort, is partitioned.
-    patches(b, 0, 31.5, BLUE)
-    text(b, 7.4, 36.5, "DINOv2", 8.2, BLUE, "bold")
-    text(b, 7.4, 32, "ViT-L/14 · primary", 6.5, MUTED)
-    patches(b, 49, 31.5, TEAL)
-    text(b, 56.4, 36.5, "RETFound", 8.2, TEAL, "bold")
-    text(b, 56.4, 32, "ViT-L/16 · comparator", 6.5, MUTED)
+    text(b, 0, 36.5, "DINOv2", 8.2, BLUE, "bold")
+    text(b, 0, 32, "ViT-L/14 · primary", 6.5, MUTED)
+    text(b, 50, 36.5, "RETFound", 8.2, TEAL, "bold")
+    text(b, 50, 32, "ViT-L/16 · comparator", 6.5, MUTED)
     text(b, 46.5, 25.9, "Linked subset · 465 patients / 945 images", 7, INK, "bold", ha="center")
     line(b, [(46.5, 21.6), (46.5, 20), (21.5, 20), (21.5, 18.4)], MUTED)
     line(b, [(46.5, 20), (71.5, 20), (71.5, 18.4)], MUTED)
@@ -150,7 +139,7 @@ def build_figure1(output_dir, alignment_qa=False, stem="Figure1_study_design_cor
     text(c, 36.5, 5.9, "No treatment-outcome labels", 6.3, MUTED, ha="center")
     fig.add_artist(FancyArrowPatch((99/WIDTH_MM, 76/HEIGHT_MM), (103.5/WIDTH_MM, 76/HEIGHT_MM),
                    transform=fig.transFigure, arrowstyle="-|>", mutation_scale=6,
-                   color=MUTED, linewidth=.65, shrinkA=.5, shrinkB=.5))
+                   color=MUTED, linewidth=1.0, shrinkA=.5, shrinkB=.5))
 
     # d: parallel assessment components, not a serial estimator-training flow.
     line(d, [(54, 2), (54, 22)], "#DCE3E6", .55)
@@ -167,20 +156,24 @@ def build_figure1(output_dir, alignment_qa=False, stem="Figure1_study_design_cor
     text(d, 121, 5.8, "Labels needed for specified precision", 6.3, MUTED)
 
     fig.canvas.draw()
-    if alignment_qa:
-        from audit_panel_alignment import require_matplotlib_panel_alignment
-        require_matplotlib_panel_alignment(fig, json_out=output_dir/f"{stem}.alignment.json",
-            overlay_svg=output_dir/f"{stem}.alignment.svg", tolerance_pt=1.5,
-            gutter_tolerance_pt=1.5, require_panel_labels=True, strict=True,
-            row_groups=[["b", "c"]], column_groups=[["a", "d"]])
-    else:
-        (output_dir/f"{stem}.alignment.json").write_text(json.dumps({
-            "verdict": "NOT RUN", "reason": "Optional external alignment auditor was not requested."}, indent=2)+"\n", encoding="utf-8")
+    from audit_panel_alignment import require_matplotlib_panel_alignment
+    require_matplotlib_panel_alignment(fig, json_out=qa_dir/f"{stem}.alignment.json",
+        overlay_svg=qa_dir/f"{stem}.alignment.svg", tolerance_pt=1.5,
+        gutter_tolerance_pt=1.5, require_panel_labels=True, strict=True,
+        row_groups=[["b", "c"]], column_groups=[["a", "d"]])
     fig.savefig(output_dir/f"{stem}.pdf")
     fig.savefig(output_dir/f"{stem}.svg")
     fig.savefig(output_dir/f"{stem}.png", dpi=600)
     fig.savefig(output_dir/f"{stem}.tiff", dpi=600, pil_kwargs={"compression": "tiff_lzw"})
-    fig.savefig(output_dir/f"{stem}.preview.png", dpi=300)
+    for extension in ("png", "tiff"):
+        raster_path = output_dir/f"{stem}.{extension}"
+        with Image.open(raster_path) as raster:
+            rgb = raster.convert("RGB")
+        options = {"dpi": (600, 600)}
+        if extension == "tiff":
+            options["compression"] = "tiff_lzw"
+        rgb.save(raster_path, **options)
+    fig.savefig(qa_dir/f"{stem}.preview.png", dpi=300)
     plt.close(fig)
     return output_dir/f"{stem}.png"
 
@@ -188,6 +181,6 @@ def build_figure1(output_dir, alignment_qa=False, stem="Figure1_study_design_cor
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-dir", type=Path, default=Path(__file__).resolve().parents[1]/"results/revision_20261110/schematics")
-    parser.add_argument("--alignment-qa", action="store_true", help="Requires the external audit_panel_alignment module on PYTHONPATH")
+    parser.add_argument("--qa-dir", type=Path, default=Path(__file__).resolve().parents[1]/"results/revision_20261110/schematics/qa")
     args = parser.parse_args()
-    print(build_figure1(args.output_dir, args.alignment_qa))
+    print(build_figure1(args.output_dir, args.qa_dir))

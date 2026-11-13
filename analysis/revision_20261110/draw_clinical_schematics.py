@@ -1,6 +1,6 @@
 """Scientific schematics from verified study facts and the local app code.
 
-Adapted in content from scripts 63/71; not a screenshot or new model inference.
+Current study schematics; not a screenshot or new model inference.
 No manuscript or clinical-image files are inputs. Fixed aggregate facts and
 recorded example scores are rendered without new inference.
 """
@@ -18,7 +18,7 @@ ANALYSIS=Path(__file__).resolve().parents[1]
 ROOT=ANALYSIS.parent
 parser=argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--output-dir',type=Path,default=ANALYSIS/'results/revision_20261110/schematics')
-parser.add_argument('--alignment-qa',action='store_true',help='Optional audit_panel_alignment module must already be on PYTHONPATH')
+parser.add_argument('--alignment-qa',action='store_true',help='Also run the bundled geometric alignment audit on Figures S1 and S7')
 args=parser.parse_args()
 BASE=args.output_dir.resolve()
 BASE.mkdir(parents=True,exist_ok=True)
@@ -89,7 +89,7 @@ def export(fig, name):
 # Isolate its style settings so the established S1/S7 exports remain unchanged.
 from draw_figure1 import build_figure1
 with plt.rc_context():
-    build_figure1(BASE, alignment_qa=args.alignment_qa)
+    build_figure1(BASE, BASE / 'qa', stem='Figure1_study_design_corrected')
 
 
 # Figure S1: explicitly prospective hypothesis; no management recommendation.
@@ -188,7 +188,9 @@ provenance = {
     'threshold_source': 'Local app.py THRESHOLD default; configurable.',
     'source_hashes': {},
 }
-for relative in ['analysis/scripts/63_fig1_study_design.py', 'analysis/scripts/71_figS1_framework.py',
+for relative in ['analysis/revision_20261110/draw_figure1.py',
+                 'analysis/revision_20261110/draw_clinical_schematics.py',
+                 'analysis/revision_20261110/audit_panel_alignment.py',
                  'app.py', 'src/dataset.py', 'src/biomarkers.py']:
     p = ROOT / relative
     provenance['source_hashes'][relative] = hashlib.sha256(p.read_bytes()).hexdigest()

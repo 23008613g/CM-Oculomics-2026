@@ -25,9 +25,25 @@ The current estimator analysis is in [analysis/public_outputs/metric_matched/](a
 
 For the same-task control, the four estimators have ordinary-accuracy MAE of 0.179–0.200 on the 60 class-balanced target rows and 0.043–0.049 on the 40 natural-prevalence target rows; No-shift gives 0.222 and 0.052, respectively. These results must not be conflated with errors against balanced accuracy. In the 70-row main analysis, ALine-D is unavailable for all 10 Messidor-2 model rows because the author-code agreement filter leaves a rank-deficient system. Missing rows and reasons are retained; its MAE of 0.227 is compared with No-shift MAE of 0.232 on the same 60 available rows.
 
-Scripts 46, 75, and 77 and their estimator snapshots are retained as historical analyses. Their method names and balanced-accuracy substitutions do not represent the corrected current analysis; use script 78 for current estimator results. See the analysis guide for the exact historical files.
+Script 78 and `public_outputs/metric_matched/` are the current estimator implementation and results. Superseded estimator implementations, their obsolete snapshots and the earlier estimator-MAE sampling benchmark have been removed from the current tree; prior versions remain in Git history.
 
-See [analysis/README.md](analysis/README.md) for the analysis map, input requirements, and longer computations. [VALIDATION.md](VALIDATION.md) records what was actually checked for this release.
+See [analysis/README.md](analysis/README.md) for the analysis map, input requirements, and longer computations, and [MODEL_CARD.md](MODEL_CARD.md) for intended use and evaluation boundaries. [VALIDATION.md](VALIDATION.md) records what was actually checked for this release.
+
+## Submission analysis map
+
+This code supports the manuscript prepared for the Journal of Medical Systems collection *Clinical AI Governance, Safety, and Algorithmovigilance*. The contribution is an evaluation of transfer reliability and metric-specific local validation requirements. It does not introduce a new model architecture or report a deployed surveillance system.
+
+| JMS figure | Original code/output numbering | Content |
+|---|---|---|
+| Fig. 1 | Fig. 1 | Study design and distinct clinical/proxy endpoints |
+| Fig. 2 | Fig. 4 | External transfer across seven cohorts |
+| Fig. 3 | Fig. 5 | Metric-matched performance estimation |
+| Fig. 4 | Fig. 6 | Local-label sampling requirements |
+| Fig. S15 | Fig. 2 | Internal model evaluation |
+| Fig. S16 | Fig. 3 | Backbone and feature-model comparisons; DDR evaluation |
+| Fig. S17 | Fig. 7 | Attention maps and imaging biomarkers |
+
+Figs. S1–S14 retain their earlier numbering. The detailed methods and supporting results are in manuscript Online Resource 1, distributed with the submission rather than in this repository. Original figure filenames in the code remain stable; the table maps them to the JMS submission. The syndrome and fusion analyses remain because they support the reported negative supplementary findings.
 
 ## Files
 
